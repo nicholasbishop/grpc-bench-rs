@@ -91,7 +91,7 @@ async fn run_test(
 
     let _server = run_server(server_lib)?;
     // Give the server time to start
-    delay_for(Duration::from_secs(1)).await;
+    delay_for(Duration::from_millis(100)).await;
 
     let start_time = Utc::now();
 
