@@ -1,0 +1,12 @@
+syntax = "proto3";
+package bench;
+
+service Bench {
+    rpc GetRandomBytes (RandomBytesRequest) returns (RandomBytesReply);
+}
+
+message RandomBytesRequest {}
+
+message RandomBytesReply {
+  bytes data = 1;
+}
