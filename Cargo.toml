@@ -10,11 +10,14 @@ tonic = "0.1.0-beta.1"
 
 bytes = "0.4"
 chrono = "*"
-futures = "0.3"
+futures = "0.1"
+futures03 = { version = "0.3", package = "futures" }
 prost = "*"
+protobuf = "*"
 rand = "*"
 structopt = "*"
 tokio = { version = "*", features = ["full"] }
 
 [build-dependencies]
+protoc-grpcio = "1.1.0"
 tonic-build = "0.1.0-beta.1"
