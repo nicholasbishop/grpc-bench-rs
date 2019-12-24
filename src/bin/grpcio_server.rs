@@ -1,19 +1,14 @@
-mod bench;
-mod bench_grpc;
-use grpc_bench::gen_random_bytes;
-use std::io::Read;
-use std::sync::Arc;
-use std::{io, thread};
-
-use futures::sync::oneshot;
 use futures::Future;
+use grpc_bench::{
+    bench::{RandomBytesReply, RandomBytesRequest},
+    bench_grpc::{create_bench, Bench},
+    gen_random_bytes,
+};
 use grpcio::{
     ChannelBuilder, Environment, ResourceQuota, RpcContext, ServerBuilder,
     UnarySink,
 };
-
-use bench::{RandomBytesReply, RandomBytesRequest};
-use bench_grpc::{create_bench, Bench};
+use std::sync::Arc;
 
 #[derive(Clone)]
 struct BenchService {
@@ -40,9 +35,8 @@ impl Bench for BenchService {
 
 fn main() {
     let env = Arc::new(Environment::new(1));
-    let num_bytes = 64 * 1024 * 1024; // 64MiB
     let service = create_bench(BenchService {
-        data: gen_random_bytes(num_bytes),
+        data: gen_random_bytes(),
     });
 
     let quota = ResourceQuota::new(Some("BenchServerQuota"))
@@ -56,15 +50,5 @@ fn main() {
         .build()
         .unwrap();
     server.start();
-    for &(ref host, port) in server.bind_addrs() {
-        println!("listening on {}:{}", host, port);
-    }
-    let (tx, rx) = oneshot::channel();
-    thread::spawn(move || {
-        println!("Press ENTER to exit...");
-        let _ = io::stdin().read(&mut [0]).unwrap();
-        tx.send(())
-    });
-    let _ = rx.wait();
-    let _ = server.shutdown().wait();
+    futures::future::empty::<(), ()>().wait().unwrap();
 }

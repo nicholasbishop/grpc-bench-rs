@@ -1,5 +1,5 @@
 /target
 **/*.rs.bk
 
-src/bin/grpcio_server/bench.rs
-src/bin/grpcio_server/bench_grpc.rs
+src/bench.rs
+src/bench_grpc.rs

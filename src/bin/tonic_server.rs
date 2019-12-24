@@ -30,8 +30,7 @@ impl Bench for BenchService {
 #[tokio::main]
 async fn main() -> Result<(), BoxError> {
     let addr = "[::1]:50051".parse()?;
-    let num_bytes = 64 * 1024 * 1024; // 64MiB
-    let data = gen_random_bytes(num_bytes);
+    let data = gen_random_bytes();
     let bench = BenchService { data };
 
     Server::builder()
