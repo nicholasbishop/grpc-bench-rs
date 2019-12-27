@@ -75,10 +75,22 @@ async fn send_request_tonic() -> Result<(), BoxError> {
     Ok(())
 }
 
+async fn send_request_tonic_with_retry() -> Result<(), BoxError> {
+    loop {
+        // Tonic fails when lots of requests are sent; grpcio doesn't
+        // have this problem. Was discussed a bit in
+        // https://github.com/hyperium/tonic/issues/209 but it's
+        // unclear to me what underlying problem is.
+        if send_request_tonic().await.is_ok() {
+            return Ok(())
+        }
+    }
+}
+
 async fn send_request(lib: Lib) -> Result<(), BoxError> {
     match lib {
         Lib::Grpcio => send_request_grpcio().await,
-        Lib::Tonic => send_request_tonic().await,
+        Lib::Tonic => send_request_tonic_with_retry().await,
     }
 }
 
