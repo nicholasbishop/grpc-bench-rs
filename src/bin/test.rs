@@ -88,6 +88,9 @@ async fn run_test(
     num_requests: usize,
 ) -> Result<(), BoxError> {
     println!("test {:?} server with {:?} client", server_lib, client_lib);
+    
+    // Wait a little bit for the port to become free
+    delay_for(Duration::from_millis(100)).await;
 
     let _server = run_server(server_lib)?;
     // Give the server time to start
