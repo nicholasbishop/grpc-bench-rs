@@ -6,13 +6,12 @@ edition = "2018"
 
 [dependencies]
 grpcio = "0.5.0-alpha.5"
-tonic = "0.1.0-beta.1"
+tonic = "0.1.0"
 
-bytes = "0.4"
 chrono = "*"
 futures = "0.1"
 futures03 = { version = "0.3", package = "futures" }
-prost = "*"
+prost = "0.6"
 protobuf = "*"
 rand = "*"
 structopt = "*"
@@ -20,4 +19,4 @@ tokio = { version = "*", features = ["full"] }
 
 [build-dependencies]
 protoc-grpcio = "1.1.0"
-tonic-build = "0.1.0-beta.1"
+tonic-build = "0.1.0"
